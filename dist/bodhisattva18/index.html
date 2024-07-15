@@ -489,5 +489,32 @@
       });
     }
   </script>
+  <script>
+    // Override the href for all the purchase buttons for different channels
+    function overridePurchaseButtonURLs() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const fromChannel = urlParams.get('from');
+
+      function getPurchaseURL(priceIndex) {
+        const qsPayload = new URLSearchParams();
+        if (fromChannel) qsPayload.append('from', fromChannel);
+        if (priceIndex) qsPayload.append('price_index', priceIndex);
+        return `https://api.rinkeby.like.co/likernft/book/purchase/likenft10e4gsezx2xfujwkl89e0vv07j8x3ha4hreulc77p4wm4manag4rqk6zeq8/new?${qsPayload.toString()}`;
+      }
+
+      document.querySelectorAll("#purchase-button").forEach(button => {
+        const priceIndex = button.dataset.edition;
+        button.href = getPurchaseURL(priceIndex);
+      });
+
+      if (fromChannel) {
+        const trialReadButton = document.querySelector('.action-button-trial-read');
+        if (trialReadButton) {
+          trialReadButton.href = `${trialReadButton.href}?from=${fromChannel}`;
+        }
+      }
+    }
+    overridePurchaseButtonURLs();
+  </script>
 </body>
 </html>
