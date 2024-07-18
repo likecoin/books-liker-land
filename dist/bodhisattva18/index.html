@@ -600,6 +600,44 @@
   gtag('js', new Date());
 
   gtag('config', 'G-S48XCGK428');
+
+  const trialReadButton = document.querySelector('.action-button-trial-read');
+  if (trialReadButton) {
+    purchaseButton.addEventListener('click', function() {
+      gtag('event', 'trial_read');
+    });
+  }
+
+  const purchaseButton = document.querySelector('.action-button-purchase');
+  if (purchaseButton) {
+    purchaseButton.addEventListener('click', function() {
+      gtag('event', 'open_select_edition_modal', { location: 'home' });
+    });
+  }
+
+  document.querySelectorAll('.purchase-external-button-wrapper #purchase-button').forEach(function(button) {
+    button.addEventListener('click', function() {
+      gtag('event', 'begin_checkout', {
+        location: 'home_modal',
+        price_index: button.dataset.edition,
+      });
+    });
+  });
+
+  document.querySelectorAll('.book-info-edition-item #purchase-button').forEach(function(button) {
+    button.addEventListener('click', function() {
+      gtag('event', 'begin_checkout', {
+        location: 'home_bottom',
+        price_index: button.dataset.edition,
+      });
+    });
+  });
+
+  document.querySelectorAll('a.lightbox-trigger').forEach(function(button) {
+    button.addEventListener('click', function() {
+      gtag('event', 'play_video');
+    });
+  });
 </script>
 </body>
 </html>
