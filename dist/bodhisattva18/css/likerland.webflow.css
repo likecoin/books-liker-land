@@ -977,7 +977,7 @@ img {
   transform-origin: 0 0;
   transform-style: preserve-3d;
   transition: transform .3s ease-in-out;
-  display: none;
+  display: flex;
 }
 
 .lightbox-trigger.desktop:hover {
@@ -1685,7 +1685,7 @@ img {
 
   .lightbox-trigger.mobile {
     margin-bottom: 8px;
-    display: none;
+    display: flex;
     position: static;
     transform: translate(0%);
   }
