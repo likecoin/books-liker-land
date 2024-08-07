@@ -565,7 +565,7 @@
   function overridePurchaseButtonURLs() {
     const urlParams = new URLSearchParams(window.location.search);
     const fromChannel = urlParams.get('from');
-    const utmSource = urlParams.get('utm_source') || 'booklikerland';
+    const utmSource = urlParams.get('utm_source');
     const utmMedium = urlParams.get('utm_medium');
     const utmCampaign = urlParams.get('utm_campaign');
 
@@ -573,7 +573,11 @@
       const qsPayload = new URLSearchParams();
       if (fromChannel) qsPayload.append('from', fromChannel);
       if (priceIndex) qsPayload.append('price_index', priceIndex);
-      if (utmSource) qsPayload.append('utm_source', utmSource)
+      if (utmSource) {
+        qsPayload.append('utm_source', utmSource)
+      } else {
+        qsPayload.append('utm_source', 'booklikerland');
+      }
       if (utmMedium) qsPayload.append('utm_medium', utmMedium)
       if (utmCampaign) qsPayload.append('utm_campaign', utmCampaign)
       return `https://api.like.co/likernft/book/purchase/likenft16jguhkfa6nnu224fwjke2zv5f99n8wl9m097h46zqxnyu33j7rgs7f0xg3/new?${qsPayload.toString()}`;
@@ -584,11 +588,14 @@
       button.href = getPurchaseURL(priceIndex);
     });
 
-    if (fromChannel) {
-      const trialReadButton = document.querySelector('.action-button-trial-read');
-      if (trialReadButton) {
-        trialReadButton.href = `${trialReadButton.href}?from=${fromChannel}`;
-      }
+    const trialReadButton = document.querySelector('.action-button-trial-read');
+    if (trialReadButton) {
+      const qsPayload = new URLSearchParams();
+      if (fromChannel) qsPayload.append('from', fromChannel);
+      if (utmSource) qsPayload.append('utm_source', utmSource)
+      if (utmMedium) qsPayload.append('utm_medium', utmMedium)
+      if (utmCampaign) qsPayload.append('utm_campaign', utmCampaign)
+      trialReadButton.href = `${trialReadButton.href}?${qsPayload.toString()`;
     }
   }
   overridePurchaseButtonURLs();
